@@ -3,6 +3,7 @@ package com.sumant.my.weather;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,14 +14,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
+
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -41,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences(prefs, MODE_PRIVATE);
+        if (isFirstTime()) {
+            onCoachMark();
+        }
         setContentView(R.layout.activity_main);
 
 
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         textViewWind = (TextView) findViewById(R.id.textViewWind);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        sharedPreferences = getSharedPreferences(prefs, MODE_PRIVATE);
+
         if(savedInstanceState == null){
             setdata(sharedPreferences.getString("city",cityNameSaved));
         }else{
@@ -62,6 +67,37 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             editor.putString("city", savedInstanceState.getString("city"));
             editor.apply();
         }
+    }
+
+    private boolean isFirstTime()
+    {
+        //SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = sharedPreferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.apply();
+        }
+        return !ranBefore;
+    }
+
+    public void onCoachMark(){
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.coach_mark);
+        dialog.setCanceledOnTouchOutside(true);
+        //for dismissing anywhere you touch
+        View masterView = dialog.findViewById(R.id.coach_mark_master_view);
+        masterView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     protected void onSaveInstanceState(Bundle outState){
@@ -79,15 +115,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             double temp = data.getJSONObject("main").getDouble("temp");
             String country = data.getJSONObject("sys").getString("country");
             double wind = data.getJSONObject("wind").getDouble("speed");
-            //JSONArray weather = data.getJSONArray("weather");
             DateFormat df = DateFormat.getDateTimeInstance();
             String updatedOn = df.format(new Date(lastUpdated*1000L));
             String weather = data.getJSONArray("weather").getJSONObject(0).getString("description");
             int id = data.getJSONArray("weather").getJSONObject(0).getInt("id");
             int iconID = GetWeatherData.setWeatherIcon(id,this);
-            String output = "%s %d %d %d %s %d";
-
-            //Log.d("out",String.format(output,city,lastUpdated,temp,weather,id));
 
             textViewCity.setText(cityname+", "+country);
             textViewWind.setText(String.format("Wind Speed: %.2f",wind)+" km/hr");
@@ -104,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             textViewWeather.setText("Error");
             textViewLastUpdate.setText("Error");
             textViewTemp.setText("Error");
+            textViewWind.setText("Error");
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_not_reachable));
         }
     }
