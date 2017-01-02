@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#511160"
+    tools:context="com.sumant.my.weather.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Humidity: 80%"
+        android:id="@+id/textViewHumidity"
+        android:textColor="@color/abc_secondary_text_material_dark"
+        android:layout_above="@+id/textViewWind"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Charlotte, US"
+        android:id="@+id/textViewCity"
+        android:textSize="25sp"
+        android:textColor="@color/abc_secondary_text_material_dark"
+        android:layout_marginTop="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last update: Yesterday"
+        android:id="@+id/textViewLastUpdated"
+        android:textColor="@color/abc_secondary_text_material_dark"
+        android:layout_below="@+id/textViewCity"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/ic_weather_sunny"
+        android:layout_above="@+id/textViewHumidity"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="27dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sunny"
+        android:id="@+id/textViewWeather"
+        android:textColor="@color/abc_secondary_text_material_dark"
+        android:layout_above="@+id/textViewHumidity"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperature: 2 C"
+        android:id="@+id/textViewTemp"
+        android:layout_marginBottom="130dp"
+        android:textSize="27sp"
+        android:textColor="@color/abc_secondary_text_material_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wind: 23"
+        android:id="@+id/textViewWind"
+        android:textColor="@color/abc_secondary_text_material_dark"
+        android:layout_above="@+id/textViewTemp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="19dp" />
+
+</RelativeLayout>
