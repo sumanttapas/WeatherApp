@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             textViewLastUpdate.setText("Last Updated: "+updatedOn);
             textViewTemp.setText(String.format("Temperature: %.2f",temp)+" \u2103");
             imageView.setImageDrawable(getResources().getDrawable(iconID));
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Log.d("Error","Error in Rendering JSON");
             textViewCity.setText("City name not Valid");
