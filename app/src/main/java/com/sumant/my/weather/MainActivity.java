@@ -129,11 +129,20 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             int iconID = GetWeatherData.setWeatherIcon(id,this);
 
             textViewCity.setText(cityname+", "+country);
-            textViewWind.setText(String.format("Wind Speed: %.2f",wind)+ unit == "metric"?" km/hr":" mph");
+            if(unit.equals("metric")){
+                wind *= 18;
+                wind /= 5;
+                textViewWind.setText(String.format("Wind Speed: %.2f",wind)+" km/hr");
+                textViewTemp.setText(String.format("Temperature: %.2f",temp)+" \u2103");
+            }else if(unit.equals("imperial")){
+                textViewWind.setText(String.format("Wind Speed: %.2f",wind)+" mph");
+                textViewTemp.setText(String.format("Temperature: %.2f",temp)+" \u2109");
+            }
+            //textViewWind.setText(String.format("Wind Speed: %.2f",wind)+ unit == "metric"?" km/hr":" mph");
             textViewHumidity.setText(String.format("Humidity: %d",humidity)+" %");
             textViewWeather.setText(weather.toUpperCase());
             textViewLastUpdate.setText("Last Updated: "+updatedOn);
-            textViewTemp.setText(String.format("Temperature: %.2f",temp)+unit == "metric"?" \u2103":" \u2109");
+            //textViewTemp.setText(String.format("Temperature: %.2f",temp)+unit == "metric"?" \u2103":" \u2109");
             imageView.setImageDrawable(getResources().getDrawable(iconID));
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,7 +187,19 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         builder
                 .setView(v)
                 .setTitle("Change Units")
-                .setPositiveButton("Done", this)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if(radioButtonImperial.isChecked())
+                            speedUnit = "imperial";
+                        else if(radioButtonMetric.isChecked())
+                            speedUnit = "metric";
+                        editor.putString("unit", speedUnit);
+                        editor.apply();
+                        setdata(sharedPreferences.getString("city","Charlotte"),speedUnit);
+                    }
+                })
                 .setNeutralButton("Cancel", this)
                 .setCancelable(false)
                 .show();
