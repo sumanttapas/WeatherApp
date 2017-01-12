@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -36,7 +37,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     ImageView imageView;
     TextView textViewWind;
     EditText editText;
+    RadioButton radioButtonMetric;
+    RadioButton radioButtonImperial;
+
     SharedPreferences sharedPreferences;
+    String speedUnit = "metric";
     static final String prefs = "preferences";
     final static String cityNameSaved = "Charlotte";
     @Override
@@ -60,11 +65,12 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         StrictMode.setThreadPolicy(policy);
 
         if(savedInstanceState == null){
-            setdata(sharedPreferences.getString("city",cityNameSaved));
+            setdata(sharedPreferences.getString("city",cityNameSaved),sharedPreferences.getString("unit", speedUnit));
         }else{
-            setdata(savedInstanceState.getString("city"));
+            setdata(savedInstanceState.getString("city"),savedInstanceState.getString("unit"));
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("city", savedInstanceState.getString("city"));
+            editor.putString("unit", savedInstanceState.getString("unit"));
             editor.apply();
         }
     }
@@ -103,11 +109,12 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
         outState.putString("city",textViewCity.getText().toString());
+        outState.putString("unit",speedUnit);
     }
 
-    public void setdata(String city)
+    public void setdata(String city, String unit)
     {
-        JSONObject data = GetWeatherData.getWeatherData(this,city);
+        JSONObject data = GetWeatherData.getWeatherData(this, city, unit);
         try {
             String cityname = data.getString("name");
             int humidity = data.getJSONObject("main").getInt("humidity");
@@ -122,11 +129,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             int iconID = GetWeatherData.setWeatherIcon(id,this);
 
             textViewCity.setText(cityname+", "+country);
-            textViewWind.setText(String.format("Wind Speed: %.2f",wind)+" km/hr");
+            textViewWind.setText(String.format("Wind Speed: %.2f",wind)+ unit == "metric"?" km/hr":" mph");
             textViewHumidity.setText(String.format("Humidity: %d",humidity)+" %");
             textViewWeather.setText(weather.toUpperCase());
             textViewLastUpdate.setText("Last Updated: "+updatedOn);
-            textViewTemp.setText(String.format("Temperature: %.2f",temp)+" \u2103");
+            textViewTemp.setText(String.format("Temperature: %.2f",temp)+unit == "metric"?" \u2103":" \u2109");
             imageView.setImageDrawable(getResources().getDrawable(iconID));
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,10 +161,28 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             case R.id.changeCity:
                 showDialog();
                 return true;
-
+            case R.id.changeUnit:
+                showUnitDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showUnitDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View v = inflater.inflate(R.layout.change_unit_layout, null);
+        radioButtonMetric = (RadioButton)v.findViewById(R.id.radioButtonMetric);
+        radioButtonImperial = (RadioButton)v.findViewById(R.id.radioButtonImperial);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setView(v)
+                .setTitle("Change Units")
+                .setPositiveButton("Done", this)
+                .setNeutralButton("Cancel", this)
+                .setCancelable(false)
+                .show();
+
     }
 
     public void showDialog()
@@ -184,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("city", editText.getText().toString());
                 editor.apply();
-                setdata(editText.getText().toString());
+                setdata(editText.getText().toString(),speedUnit);
                 break;
             case DialogInterface.BUTTON_NEUTRAL:
                 break;

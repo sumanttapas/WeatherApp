@@ -16,12 +16,12 @@ import java.util.ArrayList;
  */
 public class GetWeatherData {
 
-    static final String urlAddress = "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
+    static final String urlAddress = "http://api.openweathermap.org/data/2.5/weather?q=%s&units=%s";
 
 
-    public static JSONObject getWeatherData(Context context, String city){
+    public static JSONObject getWeatherData(Context context, String city, String unit){
         try {
-            URL url = new URL(String.format(urlAddress,city));
+            URL url = new URL(String.format(urlAddress,city,unit));
             HttpURLConnection connection =
                     (HttpURLConnection)url.openConnection();
 
