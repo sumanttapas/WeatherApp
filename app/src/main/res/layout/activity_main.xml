@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:text="Temperature: 2 C"
         android:id="@+id/textViewTemp"
-        android:layout_marginBottom="130dp"
+        android:layout_marginBottom="100dp"
         android:textSize="27sp"
         android:textColor="@color/abc_secondary_text_material_dark"
         android:layout_alignParentBottom="true"

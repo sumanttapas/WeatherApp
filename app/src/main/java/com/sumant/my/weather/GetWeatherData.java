@@ -39,9 +39,6 @@ public class GetWeatherData {
             ArrayList<ArrayList<String>> mainList = new ArrayList<ArrayList<String>>();
             JSONObject data = new JSONObject(json.toString());
             Log.d("JSON",data.toString());
-
-
-
             // This value will be 404 if the request was not
             // successful
             if(data.getInt("cod") != 200){
@@ -87,6 +84,43 @@ public class GetWeatherData {
                 case 5 :
                     //icon = "&#xf019;";//getActivity().getString(R.string.weather_rainy);
                     return R.drawable.ic_weather_rainy;
+
+            }
+        }
+        return R.drawable.ic_not_reachable;
+    }
+
+    public static int setWeatherIconSmall(int actualId){
+        int id = actualId / 100;
+        // String icon = "";
+        if(actualId == 800){
+            return R.drawable.ic_weather_sunny_24;
+
+        } else {
+            switch(id) {
+                case 2 :
+                    //icon = "&#xf01e;";//getActivity().getString(R.string.weather_thunder);
+                    return R.drawable.ic_weather_thunder_24;
+
+                case 3 :
+                    //icon = "&#xf01c;";//getActivity().getString(R.string.weather_drizzle);
+                    return R.drawable.ic_weather_drizzle_24;
+
+                case 7 :
+                    //icon = "&#xf014;";//getActivity().getString(R.string.weather_foggy);
+                    return R.drawable.ic_weather_foggy_24;
+
+                case 8 :
+                    //icon = "&#xf013;";//getActivity().getString(R.string.weather_cloudy);
+                    return R.drawable.ic_weather_cloudy_24;
+
+                case 6 :
+                    //icon = "&#xf01b;";//getActivity().getString(R.string.weather_snowy);
+                    return R.drawable.ic_weather_snow_24y;
+
+                case 5 :
+                    //icon = "&#xf019;";//getActivity().getString(R.string.weather_rainy);
+                    return R.drawable.ic_weather_rainy_24;
 
             }
         }

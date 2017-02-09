@@ -1,7 +1,11 @@
 package com.sumant.my.weather;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.StrictMode;
@@ -25,6 +29,7 @@ import org.json.JSONObject;
 
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements DialogInterface.OnClickListener{
@@ -144,6 +149,18 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             textViewLastUpdate.setText("Last Updated: "+updatedOn);
             //textViewTemp.setText(String.format("Temperature: %.2f",temp)+unit == "metric"?" \u2103":" \u2109");
             imageView.setImageDrawable(getResources().getDrawable(iconID));
+
+            Intent alert = new Intent(this, AlertActivity.class);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 8);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+
+            AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    PendingIntent.getBroadcast(this, 1, alert, PendingIntent.FLAG_UPDATE_CURRENT));
+
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("Error","Error in Rendering JSON");

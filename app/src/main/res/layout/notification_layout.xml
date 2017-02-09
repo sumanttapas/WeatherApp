@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewWeatherIcon"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/ic_weather_sunny" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperature"
+        android:id="@+id/textViewNotificationTemp"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/imageViewWeatherIcon"
+        android:textColor="@color/abc_input_method_navigation_guard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textViewTempValue"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textViewNotificationTemp"
+        android:layout_marginStart="38dp"
+        android:textColor="@color/abc_input_method_navigation_guard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weather"
+        android:id="@+id/textViewNotificationDesc"
+        android:layout_below="@+id/textViewNotificationTemp"
+        android:layout_toEndOf="@+id/imageViewWeatherIcon"
+        android:textColor="@color/abc_input_method_navigation_guard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textViewWeatherValue"
+        android:layout_below="@+id/textViewTempValue"
+        android:layout_alignStart="@+id/textViewTempValue"
+        android:textColor="@color/abc_input_method_navigation_guard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wind"
+        android:id="@+id/textViewNotificationWind"
+        android:layout_below="@+id/textViewNotificationDesc"
+        android:layout_toEndOf="@+id/imageViewWeatherIcon"
+        android:textColor="@color/abc_input_method_navigation_guard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Humidity"
+        android:id="@+id/textViewNotificationHumi"
+        android:layout_below="@+id/textViewNotificationWind"
+        android:layout_toEndOf="@+id/imageViewWeatherIcon"
+        android:textColor="@color/abc_input_method_navigation_guard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textViewWindValue"
+        android:layout_below="@+id/textViewWeatherValue"
+        android:layout_alignStart="@+id/textViewWeatherValue"
+        android:textColor="@color/abc_input_method_navigation_guard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textViewHumidityValue"
+        android:layout_below="@+id/textViewWindValue"
+        android:layout_alignStart="@+id/textViewWindValue"
+        android:textColor="@color/abc_input_method_navigation_guard" />
+</RelativeLayout>
